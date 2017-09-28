@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>APPREDA CLOUD</title>
+        <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="lib/mdb/admin/css/mdb.css" rel="stylesheet" type="text/css"/>
+        <link href="css/styles.css" rel="stylesheet" type="text/css"/>
+        <style>
+            .ui-autocomplete-loading {
+                background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+            }
+            
+            .ui-autocomplete {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                z-index: 1000;
+                float: left;
+                display: none;
+                min-width: 160px;   
+                padding: 4px 0;
+                margin: 0 0 10px 25px;
+                list-style: none;
+                background-color: #ffffff;
+                border-color: #ccc;
+                border-color: rgba(0, 0, 0, 0.2);
+                border-style: solid;
+                border-width: 1px;
+                -webkit-border-radius: 5px;
+                -moz-border-radius: 5px;
+                border-radius: 5px;
+                -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                -webkit-background-clip: padding-box;
+                -moz-background-clip: padding;
+                background-clip: padding-box;
+                *border-right-width: 2px;
+                *border-bottom-width: 2px;
+            }
+
+            .ui-menu-item > a.ui-corner-all {
+                display: block;
+                padding: 3px 15px;
+                clear: both;
+                font-weight: normal;
+                line-height: 18px;
+                color: #555555;
+                white-space: nowrap;
+                text-decoration: none;
+            }
+
+            .ui-state-hover, .ui-state-active {
+                color: #ffffff;
+                text-decoration: none;
+                background-color: #0088cc;
+                border-radius: 0px;
+                -webkit-border-radius: 0px;
+                -moz-border-radius: 0px;
+                background-image: none;
+            }
+            
+
+
+         
+            
+        </style>
+    </head>
+    <body class="fixed-sn white-skin">
+        <header>
+            <ul id="slide-out" class="side-nav fixed sn-bg-1 custom-scrollbar">
+                <li>
+                    <div class="user-box">
+                        <img id="logo-client" src="" class="img-fluid rounded-circle">
+                        <p class="user text-center"></p>
+                    </div>
+                </li>
+                <li>
+                    <ul class="collapsible collapsible-accordion">
+                    </ul>
+                </li>
+                <div class="sidenav-bg mask-strong"></div>
+            </ul>
+            <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar double-nav">
+                <a class="navbar-brand" href="#">
+                    <img src="" alt="" style="margin-left: 15px;">
+                </a>
+                <div class="float-left">
+                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+                </div>
+                <ul class="nav navbar-nav nav-flex-icons ml-auto">
+                    <li class="nav-item">
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main class="">
+            <div class="container-fluid">
+
+                <section class="section">
+                    <div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header text-black text-center" style="background-color: #000\9">
+                                    <h5 class="pull-left">LISTADO ELECTORES</h5>
+                                    <button class="btn btn-primary btn-lg pull-right" type="button" role="button" id="button-refrescar"><i class="fa fa-refresh left"></i> REFRESCAR</button>
+                                </div>
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-10 md-form text-center">
+                                            <div class="table-responsive">
+                                                <table data-role="table" class="table  table-bordered table-hover" id="votantes" >
+                                                    <thead class="thead">
+                                                        <tr class="info">
+                                                            <th style="text-align:left;">CODIGO</th>
+                                                            <th style="text-align:left;">NOMBRE COMPLETO</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        <script type="text/javascript" src="lib/jquery/js/jquery-3.2.0.min.js"></script>
+        <script type="text/javascript" src="lib/mdb/admin/js/tether.min.js"></script>
+        <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="lib/mdb/admin/js/mdb.min.js"></script>
+        <script>
+            var URL                 = null;
+            var METODO              = null;
+            var VALOR               = null;
+            var LOADER              = null;
+            var ERROR               = null;
+            var COD_OPERACION       = null;
+            var COD_ENTIDAD         = null;
+            var COD_MUNICIPIO       = null;
+            var COD_SECCION         = null;
+            var COD_CASILLA         = null;
+            var CONSECUTIVO         = null;
+            var DATA                = null;
+            
+            $(".button-collapse").sideNav();
+            $(".ui-helper-hidden-accessible").css("display","none");
+            
+            
+            function call_Ajax_Jsonp(URL, METODO, VALOR, LOADER, ERROR, FN) 
+            {
+                $.ajax
+                ({
+                    type: "GET",
+                    url: URL,
+                    data:
+                    {
+                        m: METODO,
+                        v: VALOR
+                    },
+                    dataType: "jsonp",
+                    jsonp: "callback",
+                    jsonpCallback: "JasonpCallback",
+                    async: false,
+                    beforeSend: function()
+                    {
+
+                    },
+                    complete: function()
+                    {
+
+                    },
+                    success: function(data)
+                    {
+                        FN(data);
+                    },
+                    error: function (data) 
+                    {
+                    }
+                });
+            }
+            
+            
+
+            
+            
+            $(document).ready(function()
+            {                 
+                COD_OPERACION   = localStorage.getItem('COD_OPERACION');
+                COD_ENTIDAD     = localStorage.getItem('COD_ENTIDAD');
+                COD_MUNICIPIO   = localStorage.getItem('COD_MUNICIPIO');
+                COD_SECCION     = localStorage.getItem('COD_SECCION');
+                COD_CASILLA     = localStorage.getItem('COD_CASILLA');
+                
+                $('#titulo').append("VOTANTES CASILLA: " + COD_CASILLA);                
+                URL                 = "http://escala.org.mx/APPREDA_VOTES_LIST/common/ws.php?format=json";
+                METODO              = "LEER_VOTANTES_CASILLA";
+                VALOR               = COD_OPERACION + "|" + COD_ENTIDAD + "|" + COD_MUNICIPIO + "|" + COD_SECCION + "|" + COD_CASILLA;
+                LOADER              = "#loader";
+                ERROR               = "#error";
+                
+                call_Ajax_Jsonp(URL, METODO, VALOR, LOADER, ERROR, function(data) 
+                {
+                    DATA = data;
+                    console.log(DATA);
+                    if(data[0].RESULTADO === "0000")
+                    {  
+                        
+                        $.each(data, function(index)
+                        { 
+                            if (index !== 0)
+                            {
+                                CONSECUTIVO = data[index].COD_OPERACIONES_ELECTORES;
+                                VOTANTES =                                          
+                                    "<tr>" +
+                                        "<td style='text-align:left'>" + data[index].COD_OPERACIONES_ELECTORES + "</td>" + "<td style='text-align:left'>" + data[index].NOMBRE_COMPLETO + "</td>" +
+                                    "</tr>"
+                                $('#votantes').append(VOTANTES);
+                            }
+                        });
+                    }
+                    else
+                    {
+                        $(ERROR).css("display", "block");
+                        $(ERROR).html("<p style='color:red; font-size:14px;'>"+ data[0].MENSAJE +".</p>");
+                        $(LOADER).css("display", "none");
+                    }
+                }); 
+                    
+                $("#button-refrescar").click(function(e)
+                {
+                    location.reload();
+                }); 
+            });
+            
+            
+                
+
+            
+
+        </script>
+</html>
